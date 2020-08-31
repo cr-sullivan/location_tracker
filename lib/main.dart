@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:location_tracker/Location.dart';
+import 'package:location_tracker/LocationWidget.dart';
 
 String appTitle = 'Location Tracker v0.000';
 
@@ -52,7 +54,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  var _locations = <Location>[];
+  int _counter = 100;
   final _biggerFont = const TextStyle(fontSize: 18.0);
 
   void _incrementCounter() {
@@ -63,6 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
+      _locations.add(Location("Location ${_counter}"));
     });
   }
 
@@ -91,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
 
       body: ListView.builder(
-          itemCount: 10,
+          itemCount: _locations.length * 2,
           itemBuilder: (BuildContext context, int position) {
             if (position.isOdd) return Divider();
             final index = position ~/ 2;
@@ -110,23 +114,28 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
 
-    //_loadData();
+    _loadData();
+  }
+
+  _loadData() async {
+    setState(() {
+      for (int i = 0; i< 5; i++) {
+        _locations.add(Location("Location ${i}"));
+      }
+    });
   }
 
   Widget _buildRow(int i) {
-    return Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ListTile(
-          title: Text("Line ${i}", style: _biggerFont),
+    return ListTile(
+          title: Text("${_locations[i].text}" /*, style: _biggerFont*/),
           // leading: CircleAvatar(
           //     backgroundColor: Colors.green,
           //     backgroundImage: NetworkImage(_parishes[i].avatarUrl)
           // ),
-          // onTap: () {
-          //   _pushMember(_parishes[i]);
-          // },
-        )
-    );
+          onTap: () {
+            _pushMember(_locations[i]);
+          },
+        );
   }
 
   void _showInfoDialog() {
@@ -139,6 +148,11 @@ class _MyHomePageState extends State<MyHomePage> {
           );
         }
     );
+  }
+
+  _pushMember(Location location) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => LocationWidget(location)));
   }
 
 }  //end class
