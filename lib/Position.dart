@@ -1,6 +1,12 @@
 // Location package https://pub.dev/packages/location
 import 'package:location/location.dart';
 
+// info.plist for ios  in  ios/runner  :
+// <key>NSLocationWhenInUseUsageDescription</key>
+// <string>Location Tracker needs Location permissions when in use.</string>
+// <key>NSLocationAlwaysUsageDescription</key>
+// <string>Location Tracker needs Location permissions always.</string>
+
 class Position {
   String text;
   LocationData _locationData;
