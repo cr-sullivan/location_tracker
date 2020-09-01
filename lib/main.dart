@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:location_tracker/Location.dart';
-import 'package:location_tracker/LocationWidget.dart';
+import 'package:location_tracker/Position.dart';
+import 'package:location_tracker/PositionWidget.dart';
+
 
 String appTitle = 'Location Tracker v0.000';
 
@@ -54,7 +55,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var _locations = <Location>[];
+  var _positions = <Position>[];
   int _counter = 100;
   final _biggerFont = const TextStyle(fontSize: 18.0);
 
@@ -66,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
-      _locations.add(Location("Location ${_counter}"));
+      _positions.add(Position("Location ${_counter}"));
     });
   }
 
@@ -95,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
 
       body: ListView.builder(
-          itemCount: _locations.length * 2,
+          itemCount: _positions.length * 2,
           itemBuilder: (BuildContext context, int position) {
             if (position.isOdd) return Divider();
             final index = position ~/ 2;
@@ -120,22 +121,22 @@ class _MyHomePageState extends State<MyHomePage> {
   _loadData() async {
     setState(() {
       for (int i = 0; i< 5; i++) {
-        _locations.add(Location("Location ${i}"));
+        _positions.add(Position("Location ${i}"));
       }
     });
   }
 
   Widget _buildRow(int i) {
     return ListTile(
-          title: Text("${_locations[i].text}" /*, style: _biggerFont*/),
-          // leading: CircleAvatar(
-          //     backgroundColor: Colors.green,
-          //     backgroundImage: NetworkImage(_parishes[i].avatarUrl)
-          // ),
-          onTap: () {
-            _pushMember(_locations[i]);
-          },
-        );
+      title: Text("${_positions[i].text}" /*, style: _biggerFont*/),
+      // leading: CircleAvatar(
+      //     backgroundColor: Colors.green,
+      //     backgroundImage: NetworkImage(_parishes[i].avatarUrl)
+      // ),
+      onTap: () {
+        _pushMember(_positions[i]);
+      },
+    );
   }
 
   void _showInfoDialog() {
@@ -146,13 +147,12 @@ class _MyHomePageState extends State<MyHomePage> {
             title: Text(appTitle),
             content: Text('Flutter.\r\nwww.sullivanapps.co.nz'),
           );
-        }
-    );
+        });
   }
 
-  _pushMember(Location location) {
+  _pushMember(Position location) {
     Navigator.push(context,
-        MaterialPageRoute(builder: (context) => LocationWidget(location)));
+        MaterialPageRoute(builder: (context) => PositionWidget(location)));
   }
 
 }  //end class
