@@ -62,15 +62,16 @@ class _MyHomePageState extends State<MyHomePage> {
   final _biggerFont = const TextStyle(fontSize: 18.0);
   LocationData _locationData;
 
-  void _incrementCounter() {
-    setState(() async {
+  void _incrementCounter() async {
+    _locationData = await _getLocationData();
+
+    setState(()  {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
-      _locationData = await _getLocationData();
       _positions.add(Position("${_counter}", _locationData));
     });
   }
@@ -132,7 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _buildRow(int i) {
     return ListTile(
-      title: Text("${_positions[i].text}" /*, style: _biggerFont*/),
+      title: Text("${_positions[i].getLocationString()}" /*, style: _biggerFont*/),
       // leading: CircleAvatar(
       //     backgroundColor: Colors.green,
       //     backgroundImage: NetworkImage(_parishes[i].avatarUrl)

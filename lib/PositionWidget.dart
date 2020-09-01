@@ -10,13 +10,13 @@ class PositionState extends State<PositionWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(position.text),
+        title: Text(position.comment),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(children: [
           //Image.network(parish.avatarUrl),
-          Text(position.text),
+          Text(position.comment),
           //if (position.)
         ], ),
       ),

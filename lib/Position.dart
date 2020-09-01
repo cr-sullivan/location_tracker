@@ -9,13 +9,13 @@ import 'package:location/location.dart';
 // <string>Location Tracker needs Location permissions always.</string>
 
 class Position {
-  final String text;
+  final String comment;
   final LocationData locationData;
 
-  Position(this.text, this.locationData)  {
-    if (text == null) {
+  Position(this.comment, this.locationData)  {
+    if (comment == null) {
       throw ArgumentError("text of Position cannot be null. "
-          "Received: '$text'");
+          "Received: '$comment'");
     }
   }
 
@@ -28,6 +28,9 @@ class Position {
     }
   }
 
+  String getDescription() {
+    return comment + " " + getLocationString();
+  }
 
     //Note: you can convert the timestamp into a DateTime with:
     //DateTime.fromMillisecondsSinceEpoch(locationData.time.toInt())
