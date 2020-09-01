@@ -133,7 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _buildRow(int i) {
     return ListTile(
-      title: Text("${_positions[i].getLocationString()}" /*, style: _biggerFont*/),
+      title: Text("${_positions[i].getDescription()}" /*, style: _biggerFont*/),
       // leading: CircleAvatar(
       //     backgroundColor: Colors.green,
       //     backgroundImage: NetworkImage(_parishes[i].avatarUrl)
