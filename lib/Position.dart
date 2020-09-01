@@ -1,6 +1,7 @@
 // Location package https://pub.dev/packages/location
 import 'package:location/location.dart';
 
+
 // info.plist for ios  in  ios/runner  :
 // <key>NSLocationWhenInUseUsageDescription</key>
 // <string>Location Tracker needs Location permissions when in use.</string>
@@ -8,14 +9,25 @@ import 'package:location/location.dart';
 // <string>Location Tracker needs Location permissions always.</string>
 
 class Position {
-  String text;
-  LocationData _locationData;
+  final String text;
+  final LocationData locationData;
 
-  Position(this.text)  {
+  Position(this.text, this.locationData)  {
     if (text == null) {
       throw ArgumentError("text of Position cannot be null. "
           "Received: '$text'");
     }
+  }
+
+  String getLocationString() {
+    if (locationData == null) {
+      return "Unknown location";
+    } else {
+      return locationData.latitude.toString() + ", " +
+           locationData.longitude.toString();
+    }
+  }
+
 
     //Note: you can convert the timestamp into a DateTime with:
     //DateTime.fromMillisecondsSinceEpoch(locationData.time.toInt())
@@ -44,41 +56,8 @@ class Position {
 
     //FutureBuilder
 
-    _getLocation();
-  }
+    //_getLocation();
 
-  _getLocation() async {
-    _locationData = await _getLocationData();
-    text = _locationData.latitude.toString() + ", " +
-        _locationData.longitude.toString();
-  }
+}  //End of Position class
 
-  Future<LocationData> _getLocationData() async {
-    Location location = new Location();
-
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
-    LocationData _locationData;
-
-    _serviceEnabled = await location.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await location.requestService();
-      if (!_serviceEnabled) {
-        return null;
-      }
-    }
-
-    _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
-        return null;
-      }
-    }
-
-    LocationData result = await location.getLocation();
-    return result;
-  }
-
-}
 

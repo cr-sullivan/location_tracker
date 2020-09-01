@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:location_tracker/Position.dart';
 import 'package:location_tracker/PositionWidget.dart';
 
+// Location package https://pub.dev/packages/location
+import 'package:location/location.dart';
 
 String appTitle = 'Location Tracker v0.000';
 
@@ -58,16 +60,18 @@ class _MyHomePageState extends State<MyHomePage> {
   var _positions = <Position>[];
   int _counter = 100;
   final _biggerFont = const TextStyle(fontSize: 18.0);
+  LocationData _locationData;
 
   void _incrementCounter() {
-    setState(() {
+    setState(() async {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
-      _positions.add(Position("Location ${_counter}"));
+      _locationData = await _getLocationData();
+      _positions.add(Position("${_counter}", _locationData));
     });
   }
 
@@ -121,7 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
   _loadData() async {
     setState(() {
       for (int i = 0; i< 5; i++) {
-        _positions.add(Position("Location ${i}"));
+        _positions.add(Position("Location ${i}", null));
       }
     });
   }
@@ -154,5 +158,41 @@ class _MyHomePageState extends State<MyHomePage> {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => PositionWidget(location)));
   }
+
+  // _getLocation() async {
+  //   _locationData = await _getLocationData();
+  //   setState(() {
+  //     text = _locationData.latitude.toString() + ", " +
+  //         _locationData.longitude.toString();
+  //   });
+  // }
+
+  Future<LocationData> _getLocationData() async {
+    Location location = new Location();
+
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+    LocationData _locationData;
+
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return null;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return null;
+      }
+    }
+
+    LocationData result = await location.getLocation();
+    return result;
+  }
+
 
 }  //end class
