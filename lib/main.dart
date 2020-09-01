@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:location_tracker/Position.dart';
+import 'package:location_tracker/PositionStore.dart';
 import 'package:location_tracker/PositionWidget.dart';
 
 // Location package https://pub.dev/packages/location
@@ -57,7 +58,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var _positions = <Position>[];
+  var positionStore = PositionStore();
   int _counter = 100;
   final _biggerFont = const TextStyle(fontSize: 18.0);
   LocationData _locationData;
@@ -72,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
-      _positions.add(Position("${_counter}", _locationData));
+      positionStore.add(Position("${_counter}", _locationData));
     });
   }
 
@@ -101,7 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
 
       body: ListView.builder(
-          itemCount: _positions.length * 2,
+          itemCount: positionStore.length() * 2,
           itemBuilder: (BuildContext context, int position) {
             if (position.isOdd) return Divider();
             final index = position ~/ 2;
@@ -126,20 +127,20 @@ class _MyHomePageState extends State<MyHomePage> {
   _loadData() async {
     setState(() {
       for (int i = 0; i< 5; i++) {
-        _positions.add(Position("Location ${i}", null));
+        positionStore.add(Position("Location ${i}", null));
       }
     });
   }
 
   Widget _buildRow(int i) {
     return ListTile(
-      title: Text("${_positions[i].getDescription()}" /*, style: _biggerFont*/),
+      title: Text("${positionStore.at(i).getDescription()}" /*, style: _biggerFont*/),
       // leading: CircleAvatar(
       //     backgroundColor: Colors.green,
       //     backgroundImage: NetworkImage(_parishes[i].avatarUrl)
       // ),
       onTap: () {
-        _pushMember(_positions[i]);
+        _pushMember(positionStore.at(i));
       },
     );
   }

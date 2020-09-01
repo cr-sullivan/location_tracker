@@ -1,6 +1,6 @@
-// Location package https://pub.dev/packages/location
 import 'dart:io';
 
+// Location package https://pub.dev/packages/location
 import 'package:location/location.dart';
 
 
