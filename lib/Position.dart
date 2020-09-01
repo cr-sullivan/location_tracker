@@ -35,16 +35,8 @@ class Position {
   }
 
   String getDateTimeString() {
-    if (locationData == null) {
-      return "";
-    } else {
-       //DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(locationData.time.toInt());
-       //return locationData.time.toString();
-       //return dateTime.toIso8601String();
-       //return dateTime.toString();
-      return dateTime.day.toString() + Month[dateTime.month-1] + " " +
-         dateTime.hour.toString() + ":" + dateTime.minute.toString();
-    }
+    return dateTime.day.toString() + Month[dateTime.month-1] + " " +
+      dateTime.hour.toString() + ":" + dateTime.minute.toString();
   }
 
   String getDescription() {
