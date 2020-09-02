@@ -2,6 +2,7 @@ import 'dart:io';
 
 // Location package https://pub.dev/packages/location
 // See https://flutter.dev/docs/cookbook/persistence/reading-writing-files
+// See https://medium.com/flutter-community/serializing-your-object-in-flutter-ab510f0b8b47
 import 'package:location/location.dart';
 
 import 'package:location_tracker/Position.dart';
@@ -37,10 +38,11 @@ class PositionStore {
 
   Future<File> writePosition(Position position) async {
     final file = await _localFile;
-    print("wrote " + position.comment);
+    print("writing " + position.comment);
 
     // Write the file.
-    return file.writeAsString(position.comment);
+    //return file.writeAsString(position.comment);
+    return file.writeAsBytes(position.);
   }
 
   Future<Position> readPosition() async {
