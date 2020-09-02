@@ -14,6 +14,8 @@ class PositionStore {
 
   add (Position position) => positions.add(position);
 
+  insert(int index, Position position) => positions.insert(index, position);
+
   int length() => positions.length;
 
   Position at(int i) => positions[i];
