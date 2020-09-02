@@ -75,6 +75,9 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter++;
       positionStore.add(Position("${_counter}", _locationData));
     });
+
+    positionStore.write();
+    positionStore.read();
   }
 
   @override
