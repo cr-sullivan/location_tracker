@@ -129,17 +129,13 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   _loadData() async {
-    // setState(() {
-    //   for (int i = 0; i< 5; i++) {
-    //     positionStore.add(Position("Location ${i}", 0, 0, DateTime.now()));
-    //   }
-    // });
     PositionStore oldPositionStore = PositionStore();
     await oldPositionStore.read();
     setState(() {
-        for (int i = 0; i< oldPositionStore.length(); i++) {
-          positionStore.add(oldPositionStore.positions[i]);
-        }
+      int count = oldPositionStore.length();
+      for (int i = 0; i < count; i++) {
+        positionStore.add(oldPositionStore.positions[count - i - 1]);
+      }
     });
   }
 
@@ -171,14 +167,6 @@ class _MyHomePageState extends State<MyHomePage> {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => PositionWidget(location)));
   }
-
-  // _getLocation() async {
-  //   _locationData = await _getLocationData();
-  //   setState(() {
-  //     text = _locationData.latitude.toString() + ", " +
-  //         _locationData.longitude.toString();
-  //   });
-  // }
 
   Future<LocationData> _getLocationData() async {
     Location location = new Location();

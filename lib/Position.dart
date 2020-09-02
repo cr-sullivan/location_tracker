@@ -45,8 +45,12 @@ class Position {
   }
 
   String getDateTimeString() {
+    String minutes = dateTime.minute.toString();
+    if (minutes.length == 1) {
+      minutes = "0" + minutes;  // Pad with 0 if < 10
+    }
     return dateTime.day.toString() + Month[dateTime.month-1] + " " +
-      dateTime.hour.toString() + ":" + dateTime.minute.toString();
+      dateTime.hour.toString() + ":" + minutes;
   }
 
   String getDescription() {
