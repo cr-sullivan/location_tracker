@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 // Location package https://pub.dev/packages/location
@@ -18,12 +19,41 @@ class PositionStore {
   Position at(int i) => positions[i];
 
   read() async {
-    Position position = await readPosition();
-    positions.add(position);
+      try {
+        final file = await _localFile;
+        String contents = await file.readAsString();
+        print("read " + contents);
+
+        // https://www.woolha.com/tutorials/dart-split-string-by-newline-using-linesplitter
+        LineSplitter ls = new LineSplitter();
+        List<String> lines = ls.convert(contents);
+
+        for (int i=0; i < lines.length; i++) {
+          String line = lines[i];
+          Map positionMap = jsonDecode(line);
+          Position position = Position.fromJson(positionMap);
+          positions.add(position);
+        }
+
+      } catch (e) {
+        // If encountering an error, return null.
+        return null;
+      }
   }
 
-  write() {
-    positions.forEach((position) => writePosition(position));
+  write() async {
+    // Build a string of all the json encoded positions.
+    String allEncodedPositions = "";
+    print("PositionStore.write");
+    for (int i=0; i < positions.length; i++) {
+      String encoded = jsonEncode(positions[i]);
+      allEncodedPositions = allEncodedPositions + encoded + "\r\n";
+      print("encoded: " + encoded);
+    }
+
+    print("Write: " + allEncodedPositions);
+    final file = await _localFile;
+    file.writeAsStringSync(allEncodedPositions, mode: FileMode.write, flush: true);
   }
 
   Future<String> get _localPath async {
@@ -36,31 +66,30 @@ class PositionStore {
     return File('$path/LocationStore.txt');
   }
 
-  Future<File> writePosition(Position position) async {
-    final file = await _localFile;
-    print("writing " + position.comment);
-
-    // Write the file.
-    return file.writeAsString(position.comment);
-    //return file.writeAsBytes(position);
-  }
-
-  Future<Position> readPosition() async {
-    try {
-      final file = await _localFile;
-
-      // Read the file.
-      String contents = await file.readAsString();
-      print("read " + contents);
-
-      //return contents;  //int.parse(contents);
-      Position result = Position(contents, 0, 0, DateTime.now());
-      return result;
-    } catch (e) {
-      // If encountering an error, return null.
-      return null;
-    }
-  }
+  // writePosition(Position position) {
+  //   final file = _localFile;
+  //   print("writing " + position.comment);
+  //
+  //   // Write the file.
+  //   return file.writeAsStringSync(position.comment);
+  // }
+  //
+  // Position readPosition()  {
+  //   try {
+  //     final file = _localFile;
+  //
+  //     // Read the file.
+  //     String contents = file.readAsStringSync();
+  //     print("read " + contents);
+  //
+  //     //return contents;  //int.parse(contents);
+  //     Position result = Position(contents, 0, 0, DateTime.now());
+  //     return result;
+  //   } catch (e) {
+  //     // If encountering an error, return null.
+  //     return null;
+  //   }
+  // }
 
 
 }  //end PositionStore class

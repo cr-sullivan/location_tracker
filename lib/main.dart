@@ -78,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
 
     positionStore.write();
-    positionStore.read();
+    //positionStore.read();
   }
 
   @override
@@ -129,11 +129,12 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   _loadData() async {
-    setState(() {
-      for (int i = 0; i< 5; i++) {
-        positionStore.add(Position("Location ${i}", 0, 0, DateTime.now()));
-      }
-    });
+    // setState(() {
+    //   for (int i = 0; i< 5; i++) {
+    //     positionStore.add(Position("Location ${i}", 0, 0, DateTime.now()));
+    //   }
+    // });
+    positionStore.read();
   }
 
   Widget _buildRow(int i) {
