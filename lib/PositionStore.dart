@@ -20,6 +20,8 @@ class PositionStore {
 
   Position at(int i) => positions[i];
 
+  clear() => positions.clear();
+
   read() async {
       try {
         final file = await _localFile;

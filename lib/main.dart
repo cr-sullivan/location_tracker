@@ -59,7 +59,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   var positionStore = PositionStore();
-  int _counter = 100;
+  int _counter = 0;
   final _biggerFont = const TextStyle(fontSize: 18.0);
   LocationData _locationData;
 
@@ -78,7 +78,6 @@ class _MyHomePageState extends State<MyHomePage> {
     });
 
     positionStore.write();
-    //positionStore.read();
   }
 
   @override
@@ -100,6 +99,13 @@ class _MyHomePageState extends State<MyHomePage> {
             tooltip: 'Show Information',
             onPressed: () {
               _showInfoDialog();
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.clear_all),
+            tooltip: 'Clear All',
+            onPressed: () {
+              _clearAll();
             },
           ),
         ],
@@ -134,7 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       int count = oldPositionStore.length();
       for (int i = 0; i < count; i++) {
-        positionStore.add(oldPositionStore.positions[count - i - 1]);
+        positionStore.add(oldPositionStore.positions[i]);
       }
     });
   }
@@ -161,6 +167,12 @@ class _MyHomePageState extends State<MyHomePage> {
             content: Text('Flutter.\r\nwww.sullivanapps.co.nz'),
           );
         });
+  }
+
+  void _clearAll() {
+    setState(()  {
+      positionStore.clear();
+    });
   }
 
   _pushMember(Position location) {
