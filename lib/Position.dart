@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:convert';
 
 // Location package https://pub.dev/packages/location
 import 'package:location/location.dart';
@@ -11,26 +12,35 @@ import 'package:location/location.dart';
 // <string>Location Tracker needs Location permissions always.</string>
 
 class Position {
+  // Fields
   final String comment;
-  final LocationData locationData;
-  final Month = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov', 'Dec'];
-  final DateTime dateTime = DateTime.now();
+  final double latitude;
+  final double longitude;
+  final DateTime dateTime;
 
-  Position(this.comment, this.locationData)  {
+  // Constants
+  final Month = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov', 'Dec'];
+
+  Position(this.comment, this.latitude, this.longitude, this.dateTime)  {
     if (comment == null) {
       throw ArgumentError("text of Position cannot be null. "
           "Received: '$comment'");
     }
+
+    // int millisecondsSinceEpoch = dateTime.millisecondsSinceEpoch;
+    // var dt = DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch);
+
+    String encoded = jsonEncode(this);
+    print("encoded: " + encoded);
   }
 
   String getLocationString() {
-    if (locationData == null) {
+    if (latitude == 0 && longitude == 0) {
       return "Unknown location";
     } else {
       // Round to 5 decimal places for 1m precision at equator
       // https://gisjames.wordpress.com/2016/04/27/deciding-how-many-decimal-places-to-include-when-reporting-latitude-and-longitude/
-      return locationData.latitude.toStringAsFixed(5) + ", " +
-           locationData.longitude.toStringAsFixed(5);
+      return latitude.toStringAsFixed(5) + ", " + longitude.toStringAsFixed(5);
     }
   }
 
@@ -71,6 +81,20 @@ class Position {
     //FutureBuilder
 
     //_getLocation();
+
+  // JSON encoding/decoding
+  Position.fromJson(Map<String, dynamic> json)
+      : comment = json['comment'],
+        latitude = json['latitude'],
+        longitude = json['longitude'],
+        dateTime = DateTime.fromMillisecondsSinceEpoch(json['dateTime']);
+
+  Map<String, dynamic> toJson() => {
+    'comment' : comment,
+    'latitude' : latitude,
+    'longitude' : longitude,
+    'dateTime' : dateTime.millisecondsSinceEpoch
+  };
 
 }  //End of Position class
 

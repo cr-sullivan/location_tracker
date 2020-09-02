@@ -73,7 +73,8 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
-      positionStore.add(Position("${_counter}", _locationData));
+      positionStore.add(Position("${_counter}", _locationData.latitude,
+          _locationData.longitude, DateTime.now()));
     });
 
     positionStore.write();
@@ -130,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
   _loadData() async {
     setState(() {
       for (int i = 0; i< 5; i++) {
-        positionStore.add(Position("Location ${i}", null));
+        positionStore.add(Position("Location ${i}", 0, 0, DateTime.now()));
       }
     });
   }

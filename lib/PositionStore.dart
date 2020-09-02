@@ -41,8 +41,8 @@ class PositionStore {
     print("writing " + position.comment);
 
     // Write the file.
-    //return file.writeAsString(position.comment);
-    return file.writeAsBytes(position.);
+    return file.writeAsString(position.comment);
+    //return file.writeAsBytes(position);
   }
 
   Future<Position> readPosition() async {
@@ -54,7 +54,7 @@ class PositionStore {
       print("read " + contents);
 
       //return contents;  //int.parse(contents);
-      Position result = Position(contents, null);
+      Position result = Position(contents, 0, 0, DateTime.now());
       return result;
     } catch (e) {
       // If encountering an error, return null.
