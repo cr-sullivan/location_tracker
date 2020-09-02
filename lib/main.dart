@@ -134,7 +134,13 @@ class _MyHomePageState extends State<MyHomePage> {
     //     positionStore.add(Position("Location ${i}", 0, 0, DateTime.now()));
     //   }
     // });
-    positionStore.read();
+    PositionStore oldPositionStore = PositionStore();
+    await oldPositionStore.read();
+    setState(() {
+        for (int i = 0; i< oldPositionStore.length(); i++) {
+          positionStore.add(oldPositionStore.positions[i]);
+        }
+    });
   }
 
   Widget _buildRow(int i) {
