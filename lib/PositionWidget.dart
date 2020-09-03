@@ -3,6 +3,7 @@ import 'package:location_tracker/Position.dart';
 
 class PositionState extends State<PositionWidget> {
   final Position position;
+  final biggerFont = const TextStyle(fontSize: 18.0);
 
   PositionState(this.position);
 
@@ -16,8 +17,9 @@ class PositionState extends State<PositionWidget> {
         padding: EdgeInsets.all(16.0),
         child: Column(children: [
           //Image.network(parish.avatarUrl),
-          Text(position.comment),
-          //if (position.)
+          Text(position.comment, style: biggerFont),
+          Text("Date: " + position.getDateTimeString(), style: biggerFont),
+          Text("Locn: " + position.getLocationString(), style: biggerFont),
         ], ),
       ),
     );
