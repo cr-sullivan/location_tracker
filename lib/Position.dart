@@ -13,7 +13,7 @@ import 'package:location/location.dart';
 
 class Position {
   // Fields
-  final String comment;
+  String comment;
   final double latitude;
   final double longitude;
   final DateTime dateTime;
