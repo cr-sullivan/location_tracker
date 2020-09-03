@@ -103,10 +103,10 @@ class _MyHomePageState extends State<MyHomePage> {
             },
           ),
           IconButton(
-            icon: const Icon(Icons.clear_all),
+            icon: const Icon(Icons.clear),
             tooltip: 'Clear All',
             onPressed: () {
-              _clearAll();
+              _showDeleteDialog();
             },
           ),
         ],
@@ -169,6 +169,35 @@ class _MyHomePageState extends State<MyHomePage> {
             content: Text('Flutter.\r\nwww.sullivanapps.co.nz'),
           );
         });
+  }
+
+  void _showDeleteDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Delete all data"),
+          content: new Text("Do you want to delete all the location data?"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Yes"),
+              onPressed: () {
+                _clearAll();
+                Navigator.of(context).pop();
+              },
+            ),
+            new FlatButton(
+              child: new Text("No"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _clearAll() {
