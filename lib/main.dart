@@ -59,12 +59,13 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   var positionStore = PositionStore();
-  int _counter = 0;
-  final _biggerFont = const TextStyle(fontSize: 18.0);
-  LocationData _locationData;
+  int counter = 0;
+  final biggerFont = const TextStyle(fontSize: 18.0);
+  Location location = new Location();
+  LocationData locationData;
 
   void _incrementCounter() async {
-    _locationData = await _getLocationData();
+    locationData = await _getLocationData();
 
     setState(()  {
       // This call to setState tells the Flutter framework that something has
@@ -72,9 +73,9 @@ class _MyHomePageState extends State<MyHomePage> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      _counter++;
-      positionStore.insert(0, Position("${_counter}", _locationData.latitude,
-          _locationData.longitude, DateTime.now()));
+      counter++;
+      positionStore.insert(0, Position("${counter}", locationData.latitude,
+          locationData.longitude, DateTime.now()));
     });
 
     positionStore.write();
@@ -131,6 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
 
+    _initialiseLocationService();
     _loadData();
   }
 
@@ -180,14 +182,8 @@ class _MyHomePageState extends State<MyHomePage> {
         MaterialPageRoute(builder: (context) => PositionWidget(location)));
   }
 
-  Future<LocationData> _getLocationData() async {
-    Location location = new Location();
-
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
-    LocationData _locationData;
-
-    _serviceEnabled = await location.serviceEnabled();
+  _initialiseLocationService() async {
+    bool _serviceEnabled = await location.serviceEnabled();
     if (!_serviceEnabled) {
       _serviceEnabled = await location.requestService();
       if (!_serviceEnabled) {
@@ -195,17 +191,18 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     }
 
-    _permissionGranted = await location.hasPermission();
+    PermissionStatus _permissionGranted = await location.hasPermission();
     if (_permissionGranted == PermissionStatus.denied) {
       _permissionGranted = await location.requestPermission();
       if (_permissionGranted != PermissionStatus.granted) {
         return null;
       }
     }
+  }
 
+  Future<LocationData> _getLocationData() async {
     LocationData result = await location.getLocation();
     return result;
   }
-
 
 }  //end class
