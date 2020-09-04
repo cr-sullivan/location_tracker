@@ -206,9 +206,24 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  _pushMember(Position location) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => PositionWidget(location)));
+  // _pushMember(Position position) {
+  //   Navigator.push(context,
+  //       MaterialPageRoute(builder: (context) => PositionWidget(position)));
+  //
+  //   // setState(()  {
+  //   //   position.comment = position.comment + " ";
+  //   // });
+  // }
+
+  _pushMember(Position position) async {
+    final result = await Navigator.push(context,
+        MaterialPageRoute(builder: (context) => PositionWidget(position)));
+
+    setState(() {
+      // Force redraw after possible edit to comment
+      position = Position(position.comment, position.latitude, position.longitude,
+          position.dateTime);
+    });
   }
 
   _initialiseLocationService() async {

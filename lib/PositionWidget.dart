@@ -26,28 +26,36 @@ class PositionState extends State<PositionWidget> {
               setState(() {
                 position.comment = value;
               });
-              await showDialog<void>(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text('Thanks!'),
-                    content: Text('You typed "$value".'),
-                    actions: <Widget>[
-                      FlatButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text('OK'),
-                      ),
-                    ],
-                  );
-                },
-              );
+              // await showDialog<void>(
+              //   context: context,
+              //   builder: (BuildContext context) {
+              //     return AlertDialog(
+              //       title: const Text('Thanks!'),
+              //       content: Text('You typed "$value".'),
+              //       actions: <Widget>[
+              //         FlatButton(
+              //           onPressed: () {
+              //             Navigator.pop(context);
+              //           },
+              //           child: const Text('OK'),
+              //         ),
+              //       ],
+              //     );
+              //   }, //builder
+              // );  // showDialog
             },
           ),
 
           Text("Date: " + position.getDateTimeString(), style: biggerFont),
           Text("Locn: " + position.getLocationString(), style: biggerFont),
+
+          RaisedButton(
+            onPressed: () {
+              // The Yep button returns "Yep!" as the result.
+              Navigator.pop(context, true);
+            },
+            child: Text('Ok'),
+          )
         ], ),
       ),
     );
@@ -66,4 +74,5 @@ class PositionWidget extends StatefulWidget {
 
   @override
   createState() => PositionState(position);
+
 }
