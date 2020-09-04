@@ -67,6 +67,7 @@ class PositionStore {
 
   Future<File> get _localFile async {
     final path = await _localPath;
+    print("_localFile " + path);
     return File('$path/LocationStore.txt');
   }
 

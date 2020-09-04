@@ -23,11 +23,11 @@ class PositionState extends State<PositionWidget> {
             controller: _controller..text = position.comment,
             autofocus: true,
             decoration: new InputDecoration(hintText: "Enter a comment"),
-            onChanged: (String value) async {
-              setState(() {
-                position.comment = value;
-              });
-            },  // onChanged
+            // onChanged: (String value) async {
+            //   setState(() {
+            //     position.comment = value;
+            //   });
+            // },  // onChanged
 
             // onEditingComplete: () {
             //   setState(() {
