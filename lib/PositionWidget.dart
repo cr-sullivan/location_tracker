@@ -21,29 +21,38 @@ class PositionState extends State<PositionWidget> {
           Text(position.comment, style: biggerFont),
           TextField(
             controller: _controller..text = position.comment,
-            //decoration: new InputDecoration(hintText: "Enter your number"),
-            onSubmitted: (String value) async {
+            decoration: new InputDecoration(hintText: "Enter a comment"),
+            onChanged: (String value) async {
               setState(() {
                 position.comment = value;
               });
-              // await showDialog<void>(
-              //   context: context,
-              //   builder: (BuildContext context) {
-              //     return AlertDialog(
-              //       title: const Text('Thanks!'),
-              //       content: Text('You typed "$value".'),
-              //       actions: <Widget>[
-              //         FlatButton(
-              //           onPressed: () {
-              //             Navigator.pop(context);
-              //           },
-              //           child: const Text('OK'),
-              //         ),
-              //       ],
-              //     );
-              //   }, //builder
-              // );  // showDialog
-            },
+              // if (value != '13') {
+              // return;
+              // }
+            },  // onChanged
+
+            // onSubmitted: (String value) async {
+            //   setState(() {
+            //     position.comment = value;
+            //   });
+            //   // await showDialog<void>(
+            //   //   context: context,
+            //   //   builder: (BuildContext context) {
+            //   //     return AlertDialog(
+            //   //       title: const Text('Thanks!'),
+            //   //       content: Text('You typed "$value".'),
+            //   //       actions: <Widget>[
+            //   //         FlatButton(
+            //   //           onPressed: () {
+            //   //             Navigator.pop(context);
+            //   //           },
+            //   //           child: const Text('OK'),
+            //   //         ),
+            //   //       ],
+            //   //     );
+            //   //   }, //builder
+            //   // );  // showDialog
+            // },  //onSubmitted
           ),
 
           Text("Date: " + position.getDateTimeString(), style: biggerFont),

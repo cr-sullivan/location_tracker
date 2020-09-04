@@ -74,7 +74,8 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       counter++;
-      positionStore.insert(0, Position("${counter}", locationData.latitude,
+      //positionStore.insert(0, Position("${counter}", locationData.latitude,
+      positionStore.insert(0, Position("", locationData.latitude,
           locationData.longitude, DateTime.now()));
     });
 
