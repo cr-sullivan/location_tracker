@@ -64,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Location location = new Location();
   LocationData locationData;
 
-  void _incrementCounter() async {
+  void _addButtonPressed() async {
     locationData = await _getLocationData();
 
     setState(()  {
@@ -122,7 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
           }),
 
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: _addButtonPressed,
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
@@ -225,6 +225,8 @@ class _MyHomePageState extends State<MyHomePage> {
       position = Position(position.comment, position.latitude, position.longitude,
           position.dateTime);
     });
+
+    positionStore.write();
   }
 
   _initialiseLocationService() async {

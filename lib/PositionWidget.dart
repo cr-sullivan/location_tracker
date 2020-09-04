@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:location_tracker/Position.dart';
 
 class PositionState extends State<PositionWidget> {
-  final Position position;
+  Position position;
   final biggerFont = const TextStyle(fontSize: 18.0);
   TextEditingController _controller = TextEditingController();
 
@@ -22,49 +22,54 @@ class PositionState extends State<PositionWidget> {
           TextField(
             controller: _controller..text = position.comment,
             decoration: new InputDecoration(hintText: "Enter a comment"),
-            onChanged: (String value) async {
-              setState(() {
-                position.comment = value;
-              });
-              // if (value != '13') {
-              // return;
-              // }
-            },  // onChanged
-
-            // onSubmitted: (String value) async {
+            // onChanged: (String value) async {
             //   setState(() {
             //     position.comment = value;
             //   });
-            //   // await showDialog<void>(
-            //   //   context: context,
-            //   //   builder: (BuildContext context) {
-            //   //     return AlertDialog(
-            //   //       title: const Text('Thanks!'),
-            //   //       content: Text('You typed "$value".'),
-            //   //       actions: <Widget>[
-            //   //         FlatButton(
-            //   //           onPressed: () {
-            //   //             Navigator.pop(context);
-            //   //           },
-            //   //           child: const Text('OK'),
-            //   //         ),
-            //   //       ],
-            //   //     );
-            //   //   }, //builder
-            //   // );  // showDialog
-            // },  //onSubmitted
+            // },  // onChanged
+
+            // onEditingComplete: () {
+            //   setState(() {
+            //     // Force redraw after possible edit to comment
+            //     position = Position(position.comment, position.latitude, position.longitude,
+            //         position.dateTime);
+            //   });
+            // },  // onEditingComplete
+
+            onSubmitted: (String value) async {
+              setState(() {
+                position.comment = value;
+              });
+              // await showDialog<void>(
+              //   context: context,
+              //   builder: (BuildContext context) {
+              //     return AlertDialog(
+              //       title: const Text('Thanks!'),
+              //       content: Text('You typed "$value".'),
+              //       actions: <Widget>[
+              //         FlatButton(
+              //           onPressed: () {
+              //             Navigator.pop(context);
+              //           },
+              //           child: const Text('OK'),
+              //         ),
+              //       ],
+              //     );
+              //   }, //builder
+              // );  // showDialog
+            },  //onSubmitted
           ),
 
           Text("Date: " + position.getDateTimeString(), style: biggerFont),
           Text("Locn: " + position.getLocationString(), style: biggerFont),
 
-          RaisedButton(
-            onPressed: () {
-              // The Yep button returns "Yep!" as the result.
-              Navigator.pop(context, true);
-            },
-            child: Text('Ok'),
-          )
+          // RaisedButton(
+          //   onPressed: () {
+          //     // The Yep button returns "Yep!" as the result.
+          //     Navigator.pop(context, true);
+          //   },
+          //   child: Text('Ok'),
+          // )
         ], ),
       ),
     );
