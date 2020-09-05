@@ -68,13 +68,14 @@ class _MyHomePageState extends State<MyHomePage> {
   final biggerFont = const TextStyle(fontSize: 18.0);
   Location location = new Location();
   LocationData locationData;
-  var isSpinning = false;
+  var isSpinning = false;  // Spinner shows when waiting for location data
 
   void _addButtonPressed() async {
     setState(() {
       isSpinning = true;
       build(context);
     });
+
     locationData = await _getLocationData();
 
     setState(()  {
@@ -90,6 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
 
     positionStore.write();
+
     setState(() {
       isSpinning = false;
     });
@@ -97,8 +99,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    //isSpinning = true;
-
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -152,7 +152,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
       floatingActionButton: FloatingActionButton(
         onPressed: _addButtonPressed,
-        tooltip: 'Increment',
+        tooltip: 'Add location',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
@@ -177,7 +177,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-
     _initialiseLocationService();
     _loadData();
   }
@@ -196,10 +195,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _buildRow(int i) {
     return ListTile(
       title: Text("${positionStore.at(i).getDescription()}" /*, style: _biggerFont*/),
-      // leading: CircleAvatar(
-      //     backgroundColor: Colors.green,
-      //     backgroundImage: NetworkImage(_parishes[i].avatarUrl)
-      // ),
       onTap: () {
         _pushMember(positionStore.at(i));
       },
@@ -252,15 +247,6 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  // _pushMember(Position position) {
-  //   Navigator.push(context,
-  //       MaterialPageRoute(builder: (context) => PositionWidget(position)));
-  //
-  //   // setState(()  {
-  //   //   position.comment = position.comment + " ";
-  //   // });
-  // }
-
   _pushMember(Position position) async {
     final result = await Navigator.push(context,
         MaterialPageRoute(builder: (context) => PositionWidget(position)));
@@ -293,10 +279,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<LocationData> _getLocationData() async {
-    //sleep(Duration(seconds: 3));
-    LocationData result;
-    for (int i=0; i<50; i++)
-       result = await location.getLocation();
+    LocationData result = await location.getLocation();
     return result;
   }
 

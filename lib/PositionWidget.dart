@@ -21,7 +21,7 @@ class PositionState extends State<PositionWidget> {
           padding: EdgeInsets.all(16.0),
           child: Column(children: [
             //Image.network(parish.avatarUrl),
-            Text(position.comment, style: biggerFont),
+            // or leText(position.comment, style: biggerFont),
             TextField(
               controller: _controller..text = position.comment,
               autofocus: true,
