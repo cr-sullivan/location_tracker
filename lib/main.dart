@@ -120,9 +120,16 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           IconButton(
             icon: const Icon(Icons.clear),
+            tooltip: 'Clear',
+            onPressed: () {
+              _showDeleteDialog(Icons.clear);
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.clear_all),
             tooltip: 'Clear All',
             onPressed: () {
-              _showDeleteDialog();
+              _showDeleteDialog(Icons.clear_all);
             },
           ),
         ],
@@ -212,20 +219,27 @@ class _MyHomePageState extends State<MyHomePage> {
         });
   }
 
-  void _showDeleteDialog() {
+  void _showDeleteDialog(IconData iconData) {
+    String prompt = iconData == Icons.clear_all
+        ? "Do you want to delete all the location data?"
+        : "Do you want to delete the most recent (top) location data?";
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
           title: new Text("Delete all data"),
-          content: new Text("Do you want to delete all the location data?"),
+          content: new Text(prompt),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
               child: new Text("Yes"),
               onPressed: () {
-                _clearAll();
+                if (iconData == Icons.clear_all)
+                  _clearAll();
+                else
+                  _clearFirst();
                 Navigator.of(context).pop();
               },
             ),
@@ -239,6 +253,13 @@ class _MyHomePageState extends State<MyHomePage> {
         );
       },
     );
+  }
+
+  void _clearFirst() {
+    setState(()  {
+      if (positionStore.length() > 0)
+        positionStore.removeAt(0);
+    });
   }
 
   void _clearAll() {

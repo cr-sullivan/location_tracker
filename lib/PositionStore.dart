@@ -22,6 +22,8 @@ class PositionStore {
 
   clear() => positions.clear();
 
+  removeAt(int index) => positions.removeAt(index);
+
   read() async {
       try {
         final file = await _localFile;
