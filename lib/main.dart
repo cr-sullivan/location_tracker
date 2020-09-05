@@ -1,10 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:location_tracker/Position.dart';
 import 'package:location_tracker/PositionStore.dart';
 import 'package:location_tracker/PositionWidget.dart';
 
 // Location package https://pub.dev/packages/location
 import 'package:location/location.dart';
+
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 String appTitle = 'Location Tracker v0.000';
 
@@ -63,8 +68,13 @@ class _MyHomePageState extends State<MyHomePage> {
   final biggerFont = const TextStyle(fontSize: 18.0);
   Location location = new Location();
   LocationData locationData;
+  var isSpinning = false;
 
   void _addButtonPressed() async {
+    setState(() {
+      isSpinning = true;
+      build(context);
+    });
     locationData = await _getLocationData();
 
     setState(()  {
@@ -80,10 +90,15 @@ class _MyHomePageState extends State<MyHomePage> {
     });
 
     positionStore.write();
+    setState(() {
+      isSpinning = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    //isSpinning = true;
+
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -94,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: isSpinning ? Text("Please wait...") : Text(widget.title),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.info),
@@ -113,13 +128,27 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
 
-      body: ListView.builder(
-          itemCount: positionStore.length() * 2,
-          itemBuilder: (BuildContext context, int position) {
-            if (position.isOdd) return Divider();
-            final index = position ~/ 2;
-            return _buildRow(index);
-          }),
+      // body: ListView.builder(
+      //     itemCount: positionStore.length() * 2,
+      //     itemBuilder: (BuildContext context, int position) {
+      //       if (position.isOdd) return Divider();
+      //       final index = position ~/ 2;
+      //       return _buildRow(index);
+      //     }),
+
+      // body: Column(
+      //   children: [
+      //     ListView.builder(
+      //       itemCount: positionStore.length() * 2,
+      //       itemBuilder: (BuildContext context, int position) {
+      //         if (position.isOdd) return Divider();
+      //         final index = position ~/ 2;
+      //         return _buildRow(index);
+      //       }),
+      //   ],  //Children
+      // ),
+
+      body: buildListView(isSpinning),
 
       floatingActionButton: FloatingActionButton(
         onPressed: _addButtonPressed,
@@ -128,6 +157,22 @@ class _MyHomePageState extends State<MyHomePage> {
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+
+  ListView buildListView(bool isSpinning) {
+    return ListView.builder(
+        itemCount: positionStore.length() * 2,
+        itemBuilder: (BuildContext context, int position) {
+          if (position.isOdd)
+            return Divider();
+          if (isSpinning)
+            return ListTile(title: SpinKitFadingCircle(
+              color: Colors.red,
+              size: 50.0,
+            ));
+          final index = position ~/ 2;
+          return _buildRow(index);
+        });
+    }
 
   @override
   void initState() {
@@ -248,7 +293,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<LocationData> _getLocationData() async {
-    LocationData result = await location.getLocation();
+    //sleep(Duration(seconds: 3));
+    LocationData result;
+    for (int i=0; i<50; i++)
+       result = await location.getLocation();
     return result;
   }
 
