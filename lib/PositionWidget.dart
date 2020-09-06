@@ -99,11 +99,29 @@ class PositionState extends State<PositionWidget> {
           body: Stack(
             children: [
               Positioned(
-                top: 0,
-                left: 0,
-                right: 0,
-                height: 300,
-                child: GoogleMap(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: 100,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Comment: " + position.comment),
+                      Text("Date: " + position.getDateTimeString(),
+                          style: biggerFont),
+                      Text("Locn: " + position.getLocationString(),
+                          style: biggerFont),
+                    ],
+                  ),
+              ),
+
+              Positioned (
+                top: 100.0,
+                left: 20.0,
+                right: 20.0,
+                height: 450,
+                child:
+                GoogleMap(
                   initialCameraPosition: _myLocation,
                   mapType: MapType.normal,
                   onMapCreated: (GoogleMapController controller) {
@@ -111,14 +129,7 @@ class PositionState extends State<PositionWidget> {
                   },
                   markers: Set<Marker>.of(markers),
                 ),
-              ),
 
-              Positioned (
-                top: 320.0,
-                left: 20.0,
-                right: 20.0,
-                child:
-                  Text("Hi there"),
               ),
             ], //children
 
