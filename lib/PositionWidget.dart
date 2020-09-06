@@ -73,27 +73,82 @@ class PositionState extends State<PositionWidget> {
           //   ],
           // )
 
-        // This Works but overlays the children on top of each other
-        body: Stack(
-          children: <Widget> [
-            GoogleMap(
-              initialCameraPosition: _myLocation,
-              mapType: MapType.normal,
-              onMapCreated: (GoogleMapController controller) {
-                _mapController.complete(controller);
-              },
-              markers: Set<Marker>.of(markers),
-            ),
+          // // This Works but overlays the children on top of each other
+          // body: Stack(
+          //   children: <Widget> [
+          //     GoogleMap(
+          //       initialCameraPosition: _myLocation,
+          //       mapType: MapType.normal,
+          //       onMapCreated: (GoogleMapController controller) {
+          //         _mapController.complete(controller);
+          //       },
+          //       markers: Set<Marker>.of(markers),
+          //     ),
+          //
+          //     Column(
+          //       children: [
+          //         Text("Start"),
+          //         Text("end"),
+          //       ],
+          //     ),
+          //
+          //   ],
+          // )
 
-            Column(
-              children: [
-                Text("Start"),
-                Text("end"),
-              ],
-            ),
+          // This Works but overlays the children on top of each other
+          body: Stack(
+            children: [
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                height: 300,
+                child: GoogleMap(
+                  initialCameraPosition: _myLocation,
+                  mapType: MapType.normal,
+                  onMapCreated: (GoogleMapController controller) {
+                    _mapController.complete(controller);
+                  },
+                  markers: Set<Marker>.of(markers),
+                ),
+              ),
 
-          ],
-        )
+              Positioned (
+                top: 320.0,
+                left: 20.0,
+                right: 20.0,
+                child:
+                  Text("Hi there"),
+              ),
+            ], //children
+
+            //   Column(
+            //     children: [
+            //       Text("Start"),
+            //       Text("end"),
+            //     ],
+            //   ),
+            // ],
+          )
+
+          // // This crashes
+          // body: Container (
+          //   child: Column(
+          //     children: <Widget> [
+          //       GoogleMap(
+          //         initialCameraPosition: _myLocation,
+          //         mapType: MapType.normal,
+          //         onMapCreated: (GoogleMapController controller) {
+          //           _mapController.complete(controller);
+          //         },
+          //         markers: Set<Marker>.of(markers),
+          //       ),
+          //
+          //       Text("Start"),
+          //       Text("end"),
+          //     ], // children
+          //   ),
+          // )
 
       ),
     );
