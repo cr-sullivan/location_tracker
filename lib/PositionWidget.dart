@@ -42,7 +42,7 @@ class PositionState extends State<PositionWidget> {
                 top: 0,
                 left: 0,
                 right: 0,
-                height: 100,
+                //height: 100,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -84,6 +84,7 @@ class PositionState extends State<PositionWidget> {
     return TextField(
       controller: _textEditingController..text = position.comment,
       autofocus: true,
+      style: biggerFont,
       decoration: new InputDecoration(hintText: "Enter a comment"),
       // onChanged: (String value) async {
       //   setState(() {
