@@ -20,7 +20,7 @@ class PositionState extends State<PositionWidget> {
   PositionState(this.position) {
     _myLocation = CameraPosition(
       target: LatLng(position.latitude, position.longitude),
-      zoom: 12,
+      zoom: 18,
     );
   }
 

@@ -166,8 +166,12 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   ListView buildListView(bool isSpinning) {
+    int length = positionStore.length();
+    if (isSpinning && length == 0)
+      length = 1;  // At least one ListTile when spinning
+
     return ListView.builder(
-        itemCount: positionStore.length() * 2,
+        itemCount: length * 2,
         itemBuilder: (BuildContext context, int position) {
           if (position.isOdd)
             return Divider();
@@ -220,16 +224,23 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _showDeleteDialog(IconData iconData) {
-    String prompt = iconData == Icons.clear_all
-        ? "Do you want to delete all the location data?"
-        : "Do you want to delete the most recent (top) location data?";
+    String title, prompt;
+    if (iconData == Icons.clear_all)
+    {
+      title = "Delete all data";
+      prompt = "Do you want to delete all the location data?";
+    }
+    else {
+      title = "Delete most recent location data";
+      prompt =  "Do you want to delete the most recent (top) location data?";
+    }
 
     showDialog(
       context: context,
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
-          title: new Text("Delete all data"),
+          title: new Text(title),
           content: new Text(prompt),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
@@ -299,6 +310,8 @@ class _MyHomePageState extends State<MyHomePage> {
         return null;
       }
     }
+
+    //await location.changeSettings(accuracy: LocationAccuracy.balanced);
   }
 
   Future<LocationData> _getLocationData() async {
