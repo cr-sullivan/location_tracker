@@ -40,9 +40,8 @@ class PositionState extends State<PositionWidget> {
           children: [
             Positioned(
                 top: 0,
-                left: 0,
-                right: 0,
-                //height: 100,
+                left: 10,
+                right: 10,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -58,8 +57,8 @@ class PositionState extends State<PositionWidget> {
 
             Positioned (
               top: 100.0,
-              left: 20.0,
-              right: 20.0,
+              left: 0.0,
+              right: 0.0,
               height: 450,
               child:
               GoogleMap(
@@ -83,7 +82,7 @@ class PositionState extends State<PositionWidget> {
   TextField CommentTextField() {
     return TextField(
       controller: _textEditingController..text = position.comment,
-      autofocus: true,
+      autofocus: false, //true,
       style: biggerFont,
       decoration: new InputDecoration(hintText: "Enter a comment"),
       // onChanged: (String value) async {
@@ -99,13 +98,15 @@ class PositionState extends State<PositionWidget> {
           //     position.dateTime);
           position.comment = _textEditingController.text;
         });
+        FocusScope.of(context).unfocus();  // Dismiss keyboard
       },
       // onEditingComplete
 
-      onSubmitted: (String value) async {
+      onSubmitted: (String value) {
         setState(() {
           position.comment = value;
         });
+        FocusScope.of(context).unfocus();  // Dismiss keyboard
         // await showDialog<void>(
         //   context: context,
         //   builder: (BuildContext context) {
