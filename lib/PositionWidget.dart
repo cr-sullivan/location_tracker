@@ -15,13 +15,19 @@ class PositionState extends State<PositionWidget> {
   // Google Maps
   Completer<GoogleMapController> _mapController = Completer();
   static CameraPosition _myLocation;
+  List<Marker> markers = <Marker>[];
 
   PositionState(this.position) {
-    _myLocation = CameraPosition(target: LatLng(position.latitude, position.longitude));
+    _myLocation = CameraPosition(
+      target: LatLng(position.latitude, position.longitude),
+      zoom: 12,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    getMarkers();
+
     // https://medium.com/@iamatul_k/flutter-handle-back-button-in-a-flutter-application-override-back-arrow-button-in-app-bar-d17e0a3d41f
     return WillPopScope (
       onWillPop: _onBackPressed,
@@ -76,6 +82,7 @@ class PositionState extends State<PositionWidget> {
               onMapCreated: (GoogleMapController controller) {
                 _mapController.complete(controller);
               },
+              markers: Set<Marker>.of(markers),
             ),
 
             Column(
@@ -91,6 +98,19 @@ class PositionState extends State<PositionWidget> {
       ),
     );
 
+  }
+
+  void getMarkers() {
+    markers.clear();
+    markers.add(
+        Marker(
+          markerId: MarkerId("location"),
+          position: LatLng(position.latitude, position.longitude),
+          // infoWindow: InfoWindow(
+          //     title: places[i].name, snippet: places[i].vicinity),
+          onTap: () {},
+        ),
+    );
   }  //build
 
   @override
