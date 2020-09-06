@@ -36,134 +36,94 @@ class PositionState extends State<PositionWidget> {
           title: Text(position.comment),
         ),
 
-        // body: Column(
-        //   children: [
-        //     GoogleMap(
-        //       initialCameraPosition: _myLocation,
-        //       mapType: MapType.normal,
-        //       onMapCreated: (GoogleMapController controller) {
-        //         _mapController.complete(controller);
-        //       },
-        //     ),
-        //   ], //children
-        // ),
-
-        // // This works
-        // body: GoogleMap(
-        //   initialCameraPosition: _myLocation,
-        //   mapType: MapType.normal,
-        //   onMapCreated: (GoogleMapController controller) {
-        //     _mapController.complete(controller);
-        //   },
-        // ),
-
-          // // This crashes
-          // body: Column(
-          //   children: <Widget> [
-          //     Text("Start"),
-          //     GoogleMap(
-          //       initialCameraPosition: _myLocation,
-          //       mapType: MapType.normal,
-          //       onMapCreated: (GoogleMapController controller) {
-          //         _mapController.complete(controller);
-          //       },
-          //     ),
-          //
-          //     Text("Hello"),
-          //   ],
-          // )
-
-          // // This Works but overlays the children on top of each other
-          // body: Stack(
-          //   children: <Widget> [
-          //     GoogleMap(
-          //       initialCameraPosition: _myLocation,
-          //       mapType: MapType.normal,
-          //       onMapCreated: (GoogleMapController controller) {
-          //         _mapController.complete(controller);
-          //       },
-          //       markers: Set<Marker>.of(markers),
-          //     ),
-          //
-          //     Column(
-          //       children: [
-          //         Text("Start"),
-          //         Text("end"),
-          //       ],
-          //     ),
-          //
-          //   ],
-          // )
-
-          // This Works but overlays the children on top of each other
-          body: Stack(
-            children: [
-              Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  height: 100,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Comment: " + position.comment),
-                      Text("Date: " + position.getDateTimeString(),
-                          style: biggerFont),
-                      Text("Locn: " + position.getLocationString(),
-                          style: biggerFont),
-                    ],
-                  ),
-              ),
-
-              Positioned (
-                top: 100.0,
-                left: 20.0,
-                right: 20.0,
-                height: 450,
-                child:
-                GoogleMap(
-                  initialCameraPosition: _myLocation,
-                  mapType: MapType.normal,
-                  onMapCreated: (GoogleMapController controller) {
-                    _mapController.complete(controller);
-                  },
-                  markers: Set<Marker>.of(markers),
+        body: Stack(
+          children: [
+            Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                height: 100,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    //Text("Comment: " + position.comment),
+                    CommentTextField(),
+                    Text("Date: " + position.getDateTimeString(),
+                        style: biggerFont),
+                    Text("Locn: " + position.getLocationString(),
+                        style: biggerFont),
+                  ],
                 ),
+            ),
 
+            Positioned (
+              top: 100.0,
+              left: 20.0,
+              right: 20.0,
+              height: 450,
+              child:
+              GoogleMap(
+                initialCameraPosition: _myLocation,
+                mapType: MapType.normal,
+                onMapCreated: (GoogleMapController controller) {
+                  _mapController.complete(controller);
+                },
+                markers: Set<Marker>.of(markers),
               ),
-            ], //children
 
-            //   Column(
-            //     children: [
-            //       Text("Start"),
-            //       Text("end"),
-            //     ],
-            //   ),
-            // ],
-          )
-
-          // // This crashes
-          // body: Container (
-          //   child: Column(
-          //     children: <Widget> [
-          //       GoogleMap(
-          //         initialCameraPosition: _myLocation,
-          //         mapType: MapType.normal,
-          //         onMapCreated: (GoogleMapController controller) {
-          //           _mapController.complete(controller);
-          //         },
-          //         markers: Set<Marker>.of(markers),
-          //       ),
-          //
-          //       Text("Start"),
-          //       Text("end"),
-          //     ], // children
-          //   ),
-          // )
+            ),
+          ], //children
+        )
 
       ),
     );
 
+  }
+
+  TextField CommentTextField() {
+    return TextField(
+      controller: _textEditingController..text = position.comment,
+      autofocus: true,
+      decoration: new InputDecoration(hintText: "Enter a comment"),
+      // onChanged: (String value) async {
+      //   setState(() {
+      //     position.comment = value;
+      //   });
+      // },  // onChanged
+
+      onEditingComplete: () {
+        setState(() {
+          // // Force redraw after possible edit to comment
+          // position = Position(position.comment, position.latitude, position.longitude,
+          //     position.dateTime);
+          position.comment = _textEditingController.text;
+        });
+      },
+      // onEditingComplete
+
+      onSubmitted: (String value) async {
+        setState(() {
+          position.comment = value;
+        });
+        // await showDialog<void>(
+        //   context: context,
+        //   builder: (BuildContext context) {
+        //     return AlertDialog(
+        //       title: const Text('Thanks!'),
+        //       content: Text('You typed "$value".'),
+        //       actions: <Widget>[
+        //         FlatButton(
+        //           onPressed: () {
+        //             Navigator.pop(context);
+        //           },
+        //           child: const Text('OK'),
+        //         ),
+        //       ],
+        //     );
+        //   }, //builder
+        // );  // showDialog
+      }, //onSubmitted
+    );
   }
 
   void getMarkers() {
@@ -176,101 +136,6 @@ class PositionState extends State<PositionWidget> {
           //     title: places[i].name, snippet: places[i].vicinity),
           onTap: () {},
         ),
-    );
-  }  //build
-
-  @override
-  Widget buildIt(BuildContext context) {
-    // https://medium.com/@iamatul_k/flutter-handle-back-button-in-a-flutter-application-override-back-arrow-button-in-app-bar-d17e0a3d41f
-    return WillPopScope (
-        onWillPop: _onBackPressed,
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text(position.comment),
-          ),
-          body: Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Column(children: [
-              //Image.network(parish.avatarUrl),
-              // or leText(position.comment, style: biggerFont),
-              TextField(
-                controller: _textEditingController..text = position.comment,
-                autofocus: true,
-                decoration: new InputDecoration(hintText: "Enter a comment"),
-                // onChanged: (String value) async {
-                //   setState(() {
-                //     position.comment = value;
-                //   });
-                // },  // onChanged
-
-                onEditingComplete: () {
-                  setState(() {
-                    // // Force redraw after possible edit to comment
-                    // position = Position(position.comment, position.latitude, position.longitude,
-                    //     position.dateTime);
-                    position.comment = _textEditingController.text;
-                  });
-                },  // onEditingComplete
-
-                onSubmitted: (String value) async {
-                  setState(() {
-                    position.comment = value;
-                  });
-                  // await showDialog<void>(
-                  //   context: context,
-                  //   builder: (BuildContext context) {
-                  //     return AlertDialog(
-                  //       title: const Text('Thanks!'),
-                  //       content: Text('You typed "$value".'),
-                  //       actions: <Widget>[
-                  //         FlatButton(
-                  //           onPressed: () {
-                  //             Navigator.pop(context);
-                  //           },
-                  //           child: const Text('OK'),
-                  //         ),
-                  //       ],
-                  //     );
-                  //   }, //builder
-                  // );  // showDialog
-                },  //onSubmitted
-              ),
-
-              Text("Date: " + position.getDateTimeString(), style: biggerFont),
-              Text("Locn: " + position.getLocationString(), style: biggerFont),
-
-              // Column(
-              //   children: [
-              //     GoogleMap(
-              //       initialCameraPosition: _myLocation,
-              //       mapType: MapType.normal,
-              //       onMapCreated: (GoogleMapController controller) {
-              //         _mapController.complete(controller);
-              //       },
-              //     ),
-              //   ], // children
-              // ),
-
-              Scaffold(
-                body: GoogleMap(
-                  initialCameraPosition: _myLocation,
-                  mapType: MapType.normal,
-                  onMapCreated: (GoogleMapController controller) {
-                    _mapController.complete(controller);
-                  },
-                ),
-              ),
-
-              // RaisedButton(
-              //   onPressed: () {
-              //     // The Yep button returns "Yep!" as the result.
-              //     Navigator.pop(context, true);
-              //   },
-              //   child: Text('Ok'),
-              // )
-            ], ),
-          ),
-        )
     );
   }  //build
 
