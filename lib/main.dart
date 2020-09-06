@@ -260,12 +260,14 @@ class _MyHomePageState extends State<MyHomePage> {
       if (positionStore.length() > 0)
         positionStore.removeAt(0);
     });
+    positionStore.write();
   }
 
   void _clearAll() {
     setState(()  {
       positionStore.clear();
     });
+    positionStore.write();
   }
 
   _pushMember(Position position) async {
