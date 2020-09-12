@@ -62,6 +62,11 @@ class Position {
     return comment + " " + getDateTimeString() + " " + getLocationString();
   }
 
+  String getKeyString() {
+    return getDescription() + " " + getDateTimeString() + " " +
+        getLocationString() + " " + getAccuracyString();
+  }
+
   //Note: you can convert the timestamp into a DateTime with:
   //DateTime.fromMillisecondsSinceEpoch(locationData.time.toInt())
 

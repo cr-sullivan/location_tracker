@@ -186,16 +186,19 @@ class _MyHomePageState extends State<MyHomePage> {
     return ListView.builder(
         itemCount: length * 2,
         itemBuilder: (BuildContext context, int position) {
-          if (position.isOdd)
+          if (position.isOdd) {
             return Divider();
-          if (isSpinning)
+          } else if (isSpinning) {
             return ListTile(title: SpinKitFadingCircle(
               color: Colors.red,
               size: 50.0,
             ));
-          final index = position ~/ 2;
-          return _buildRow(index);
-        });
+          } else {
+            final index = position ~/ 2;
+            return _buildRow(index);
+          }
+        },
+      );
     }
 
   @override
@@ -217,11 +220,31 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _buildRow(int i) {
-    return ListTile(
-      title: Text("${positionStore.at(i).getDescription()}" /*, style: _biggerFont*/),
-      onTap: () {
-        _pushMember(positionStore.at(i));
-      },
+    //https://flutter.dev/docs/cookbook/gestures/dismissible
+    return Dismissible(
+      background: Container(color: Colors.red),
+      key: Key(positionStore.at(i).getKeyString()),
+      onDismissed: (direction) {
+        // Remove the item from the data source.
+        setState(() {
+          positionStore.removeAt(i);
+        });
+        positionStore.write();
+
+        // Show a snackbar. This snackbar could also contain "Undo" actions.
+        Scaffold
+          .of(context)
+          .showSnackBar(SnackBar(
+              content: Text("${positionStore.at(i).getDescription()} dismissed")
+          ),);
+       }, // onDismissed
+
+      child: ListTile(
+        title: Text("${positionStore.at(i).getDescription()}" /*, style: _biggerFont*/),
+        onTap: () {
+          _pushMember(positionStore.at(i));
+        },
+      ),
     );
   }
 
