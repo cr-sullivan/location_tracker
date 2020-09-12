@@ -1,5 +1,5 @@
 // Location Tracker Covid19 app in Flutter.
-// Chris Sullivan Sep 2020
+// Chris Sullivan Aug-Sep 2020
 // https://github.com/cr-sullivan/location_tracker.git
 
 
