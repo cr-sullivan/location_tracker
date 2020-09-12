@@ -50,7 +50,7 @@ class PositionState extends State<PositionWidget> {
                     //Text("Comment: " + position.comment),
                     CommentTextField(),
                     Text(position.getDateTimeString() +
-                        "  Accuracy: ${position.accuracy}m",
+                        "  Accuracy: " + position.getAccuracyString(),
                         style: biggerFont),
                     Text("Locn: " + position.getLocationString(),
                         style: biggerFont),

@@ -45,6 +45,10 @@ class Position {
     }
   }
 
+  String getAccuracyString() {
+    return accuracy.toStringAsFixed(0) + "m";
+  }
+
   String getDateTimeString() {
     String minutes = dateTime.minute.toString();
     if (minutes.length == 1) {
