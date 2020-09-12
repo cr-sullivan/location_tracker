@@ -9,9 +9,10 @@ import 'package:location_tracker/PositionWidget.dart';
 // Location package https://pub.dev/packages/location
 import 'package:location/location.dart';
 
+// https://pub.dev/documentation/flutter_spinkit/latest/
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-String appTitle = 'Location Tracker v0.000';
+String appTitle = 'Location Tracker v0.001';
 
 void main() {
   runApp(MyApp());
@@ -87,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
       counter++;
       //positionStore.insert(0, Position("${counter}", locationData.latitude,
       positionStore.insert(0, Position("", locationData.latitude,
-          locationData.longitude, DateTime.now()));
+          locationData.longitude, locationData.accuracy, DateTime.now()));
     });
 
     positionStore.write();
@@ -288,7 +289,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       // Force redraw after possible edit to comment
       position = Position(position.comment, position.latitude, position.longitude,
-          position.dateTime);
+          position.accuracy, position.dateTime);
     });
 
     positionStore.write();

@@ -73,30 +73,5 @@ class PositionStore {
     return File('$path/LocationStore.txt');
   }
 
-  // writePosition(Position position) {
-  //   final file = _localFile;
-  //   print("writing " + position.comment);
-  //
-  //   // Write the file.
-  //   return file.writeAsStringSync(position.comment);
-  // }
-  //
-  // Position readPosition()  {
-  //   try {
-  //     final file = _localFile;
-  //
-  //     // Read the file.
-  //     String contents = file.readAsStringSync();
-  //     print("read " + contents);
-  //
-  //     //return contents;  //int.parse(contents);
-  //     Position result = Position(contents, 0, 0, DateTime.now());
-  //     return result;
-  //   } catch (e) {
-  //     // If encountering an error, return null.
-  //     return null;
-  //   }
-  // }
-
 
 }  //end PositionStore class

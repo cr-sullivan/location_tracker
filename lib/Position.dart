@@ -16,12 +16,13 @@ class Position {
   String comment;
   final double latitude;
   final double longitude;
+  final double accuracy;
   final DateTime dateTime;
 
   // Constants
-  final Month = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov', 'Dec'];
+  static final Month = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov', 'Dec'];
 
-  Position(this.comment, this.latitude, this.longitude, this.dateTime)  {
+  Position(this.comment, this.latitude, this.longitude, this.accuracy, this.dateTime)  {
     if (comment == null) {
       throw ArgumentError("text of Position cannot be null. "
           "Received: '$comment'");
@@ -57,46 +58,22 @@ class Position {
     return comment + " " + getDateTimeString() + " " + getLocationString();
   }
 
-    //Note: you can convert the timestamp into a DateTime with:
-    //DateTime.fromMillisecondsSinceEpoch(locationData.time.toInt())
-
-    //This works, but runs later
-    // Future<LocationData> futureLocationData = _getLocationData();
-    // futureLocationData.then((value)
-    // {
-    //   _locationData = value;
-    //   text = _locationData.latitude.toString() + ", " +
-    //       _locationData.longitude.toString();
-    // });
-
-    // The following does NOT work
-    // List<Future<LocationData>> futureLocations = List();
-    // futureLocations.add(futureLocationData);
-    // Future.wait(futureLocations);
-
-    // print("Waiting");
-    // int i = 0;
-    // while (_locationData == null) {
-    //   //Busy wait
-    //   i++;
-    // }
-    // print(text);
-
-    //FutureBuilder
-
-    //_getLocation();
+  //Note: you can convert the timestamp into a DateTime with:
+  //DateTime.fromMillisecondsSinceEpoch(locationData.time.toInt())
 
   // JSON encoding/decoding
   Position.fromJson(Map<String, dynamic> json)
       : comment = json['comment'],
         latitude = json['latitude'],
         longitude = json['longitude'],
+        accuracy = json['accuracy'] ?? 0,
         dateTime = DateTime.fromMillisecondsSinceEpoch(json['dateTime']);
 
   Map<String, dynamic> toJson() => {
     'comment' : comment,
     'latitude' : latitude,
     'longitude' : longitude,
+    'accuracy' : accuracy,
     'dateTime' : dateTime.millisecondsSinceEpoch
   };
 

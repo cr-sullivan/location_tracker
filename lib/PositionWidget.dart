@@ -5,6 +5,8 @@ import 'package:location_tracker/Position.dart';
 
 //https://pub.dev/packages/google_maps_flutter
 // https://www.raywenderlich.com/4466319-google-maps-for-flutter-tutorial-getting-started
+// https://medium.com/flutter-nyc/building-the-swiftui-sample-app-in-flutter-67bb4f9c571c
+// https://github.com/VGVentures/flutter_landmarks/blob/master/lib/screens/landmark_detail.dart
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class PositionState extends State<PositionWidget> {
@@ -47,7 +49,8 @@ class PositionState extends State<PositionWidget> {
                   children: [
                     //Text("Comment: " + position.comment),
                     CommentTextField(),
-                    Text("Date: " + position.getDateTimeString(),
+                    Text(position.getDateTimeString() +
+                        "  Accuracy: ${position.accuracy}m",
                         style: biggerFont),
                     Text("Locn: " + position.getLocationString(),
                         style: biggerFont),
