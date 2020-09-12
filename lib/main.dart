@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:location_tracker/Position.dart';
@@ -111,29 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: isSpinning ? Text("Please wait...") : Text(widget.title),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.info),
-            tooltip: 'Show Information',
-            onPressed: () {
-              _showInfoDialog();
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.clear),
-            tooltip: 'Clear',
-            onPressed: () {
-              _showDeleteDialog(Icons.clear);
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.clear_all),
-            tooltip: 'Clear All',
-            onPressed: () {
-              _showDeleteDialog(Icons.clear_all);
-            },
-          ),
-        ],
+        actions: actionWidgets(),
       ),
 
       // body: ListView.builder(
@@ -164,6 +143,39 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  List<Widget> actionWidgets() {
+    var result = <Widget>[
+        IconButton(
+          icon: const Icon(Icons.info),
+          tooltip: 'Show Information',
+          onPressed: () {
+            _showInfoDialog();
+          },
+        ),
+        IconButton(
+          icon: const Icon(Icons.clear),
+          tooltip: 'Clear',
+          onPressed: () {
+            _showDeleteDialog(Icons.clear);
+          },
+        ),
+      ];
+
+    if (kDebugMode) {
+      result.add(
+        IconButton(
+          icon: const Icon(Icons.clear_all),
+          tooltip: 'Clear All',
+          onPressed: () {
+            _showDeleteDialog(Icons.clear_all);
+          },
+        ),
+      );
+    }
+
+    return result;
   }
 
   ListView buildListView(bool isSpinning) {
