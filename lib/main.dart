@@ -1,3 +1,8 @@
+// Location Tracker Covid19 app in Flutter.
+// Chris Sullivan Sep 2020
+// https://github.com/cr-sullivan/location_tracker.git
+
+
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
