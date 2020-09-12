@@ -4,13 +4,18 @@ Covid19 location tracker
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+chrissullivan@Chriss-iMac3 location_tracker % git remote add origin https://github.com/cr-sullivan/location_tracker.git
+fatal: remote origin already exists.
+chrissullivan@Chriss-iMac3 location_tracker % git branch -M master
+chrissullivan@Chriss-iMac3 location_tracker % git push -u origin master
+Enumerating objects: 322, done.
+Counting objects: 100% (322/322), done.
+Delta compression using up to 6 threads
+Compressing objects: 100% (301/301), done.
+Writing objects: 100% (322/322), 87.56 KiB | 5.47 MiB/s, done.
+Total 322 (delta 159), reused 0 (delta 0)
+remote: Resolving deltas: 100% (159/159), done.
+To https://github.com/cr-sullivan/location_tracker.git
+ * [new branch]      master -> master
+Branch 'master' set up to track remote branch 'master' from 'origin'.
+chrissullivan@Chriss-iMac3 location_tracker % 
